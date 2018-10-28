@@ -11,49 +11,45 @@ def print_menu_and_get_input():
 '''.format('*' * 65 + "  Time Management  " + '*' * 65))
 
 
-def run_menu_loop(connection, cursor):
+def run_menu_loop(proxy):
     while True:
         choice = print_menu_and_get_input()
-        map_user_menu_choice_to_function(choice, connection, cursor)
+        map_user_menu_choice_to_function(choice, proxy)
 
 
-def map_user_menu_choice_to_function(choice, connection, cursor):
+def map_user_menu_choice_to_function(choice, proxy):
     if choice == "1":
-        make_a_note(cursor)
-        connection.commit()
+        make_a_note(proxy)
     elif choice == "2":
-        set_a_todo_item_with_goal(cursor)
-        connection.commit()
+        set_a_todo_item_with_goal(proxy)
     elif choice == "3":
-        db.print_contents(cursor)
+        db.print_contents(proxy)
     elif choice == "4":
-        delete_history_and_exit(cursor, connection)
+        delete_history_and_exit(proxy)
     elif choice == "5":
-        quit_program(connection)
+        quit_program(proxy)
     else:
         print("Choice not recognized.")
 
 
-def make_a_note(cursor):
+def make_a_note(proxy):
     note = input("Make a note: ")
-    db.update_table_with_note(cursor, note)
+    db.update_table_with_note(proxy, note)
 
 
-def set_a_todo_item_with_goal(cursor):
-    goal = input("Make a TODO item: ")
+def set_a_todo_item_with_goal(proxy):
+    note = input("Make a TODO item: ")
     days_until_completion = input("Set number of days to complete: ")
-    db.update_table_with_todo_and_goal(cursor, days_until_completion, goal)
+    db.update_table_with_todo_and_goal(proxy, note, days_until_completion)
 
 
-def quit_program(connection):
+def quit_program(proxy):
     print("Get outta here!")
-    connection.close()
+    proxy.connection.close()
     quit()
 
 
-def delete_history_and_exit(cursor, connection):
+def delete_history_and_exit(proxy):
     print("Dropping table and exiting program. Goodbye!")
-    db.delete_history(cursor)
-    connection.commit()
-    connection.close()
+    db.delete_history(proxy)
     quit()
