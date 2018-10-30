@@ -4,7 +4,7 @@ from proxy import DbProxy
 
 
 def main():
-    proxy = DbProxy("time-management.db")
+    proxy = DbProxy("time_management.db")
     db.create_table(proxy)
     interface.run_menu_loop(proxy)
 
