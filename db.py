@@ -28,6 +28,10 @@ def update_table_with_todo_and_goal(proxy, note, completion_goal):
     proxy.connection.commit()
 
 
+def update_completion(proxy, row_id):
+    proxy.cursor.execute("UPDATE {} SET {} = {} WHERE id = {}".format(table, schema[4], 1, row_id))
+
+
 def print_contents(proxy):
     def divide():
         return '-' * 150

@@ -6,8 +6,9 @@ def print_menu_and_get_input():
 1: Make a note.
 2: Make a TODO item and set a completion goal.
 3: Print your notes and TODOs.
-4: Delete your time management history.
-5: Quit.
+4: Complete a TODO.
+5: Delete your time management history.
+6: Quit.
 '''.format('*' * 65 + "  Time Management  " + '*' * 65))
 
 
@@ -25,8 +26,10 @@ def map_user_menu_choice_to_function(choice, proxy):
     elif choice == "3":
         db.print_contents(proxy)
     elif choice == "4":
-        delete_history_and_exit(proxy)
+        complete_todo(proxy)
     elif choice == "5":
+        delete_history_and_exit(proxy)
+    elif choice == "6":
         quit_program(proxy)
     else:
         print("Choice not recognized.")
@@ -41,6 +44,11 @@ def set_a_todo_item_with_goal(proxy):
     note = input("Make a TODO item: ")
     days_until_completion = input("Set number of days to complete: ")
     db.update_table_with_todo_and_goal(proxy, note, days_until_completion)
+
+
+def complete_todo(proxy):
+    row_id = input("Select note id for completion: ")
+    db.update_completion(proxy, row_id)
 
 
 def quit_program(proxy):
