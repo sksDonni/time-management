@@ -3,7 +3,7 @@ import kronos
 
 db = "time_management.db"
 table = "time_management"
-schema = ["id", "date", "note", "complete_in_days", "is_complete"]
+schema = {"id": "id", "date": "date", "note": "note", "complete_in_days": "date", "is_complete": "is_complete"}
 
 
 def divide():
@@ -33,7 +33,7 @@ def update_table_with_todo_and_goal(proxy, note, completion_goal):
 
 
 def update_completion(proxy, row_id):
-    proxy.cursor.execute("UPDATE {} SET {} = {} WHERE id = {}".format(table, schema[4], 1, row_id))
+    proxy.cursor.execute("UPDATE {} SET {} = {} WHERE id = {}".format(table, schema["is_complete"], 1, row_id))
 
 
 def print_contents(proxy):
@@ -49,7 +49,7 @@ def count_rows(proxy):
 
 def get_overdue_items(proxy):
     for row in proxy.cursor.execute("SELECT * FROM {}".format(table)):
-        if int(row[4]) == 0 and kronos.is_overdue(row[1], row[3]):
+        if int(row[4]) == 0 and kronos.is_overdue(schema["date"], schema["complete_in_days"]):
             print(divide())
             print(row)
 
