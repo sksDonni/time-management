@@ -56,5 +56,4 @@ def get_overdue_items(proxy):
 
 def delete_history(proxy):
     proxy.cursor.execute("DROP TABLE {}".format(table))
-    proxy.connection.commit()
-    proxy.connection.close()
+    create_table(proxy)

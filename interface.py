@@ -74,6 +74,8 @@ def quit_program(proxy):
 
 
 def delete_history_and_exit(proxy):
-    print("Dropping table and exiting program. Goodbye!")
-    db.delete_history(proxy)
-    quit()
+    choice = input(
+        "Are you sure you want to delete your history?\nSubmit 'y' to drop table or any other key to return the menu: ")
+    if choice == "y":
+        print("Deleting history...")
+        db.delete_history(proxy)
