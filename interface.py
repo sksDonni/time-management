@@ -2,7 +2,8 @@ import db
 
 
 def print_menu_and_get_input():
-    return input(''' {}
+    print_ascii_banner(parse_ascii_banner("banner.txt"))
+    return input('''
 1: Make a note.
 2: Make a TODO item and set a completion goal.
 3: Print your notes and TODOs.
@@ -10,7 +11,19 @@ def print_menu_and_get_input():
 5: Print overdue TODOs.
 6: Delete your time management history.
 7: Quit.
-'''.format('*' * 65 + "  Time Management  " + '*' * 65))
+''')
+
+
+def parse_ascii_banner(file):
+    f = open(file, 'r')
+    lines = f.readlines()
+    f.close()
+    return lines
+
+
+def print_ascii_banner(lines):
+    for line in lines:
+        print(line.rstrip("\n"))
 
 
 def run_menu_loop(proxy):
