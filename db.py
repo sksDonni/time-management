@@ -3,7 +3,8 @@ import kronos
 
 db = "time_management.db"
 table = "time_management"
-schema = {"id": "id", "date": "date", "note": "note", "complete_in_days": "date", "is_complete": "is_complete"}
+schema = {"id": "id", "date": "date", "note": "note", "complete_in_days": "complete_in_days",
+          "is_complete": "is_complete"}
 
 
 def divide():
@@ -49,7 +50,7 @@ def count_rows(proxy):
 
 def get_overdue_items(proxy):
     for row in proxy.cursor.execute("SELECT * FROM {}".format(table)):
-        if int(row[4]) == 0 and kronos.is_overdue(schema["date"], schema["complete_in_days"]):
+        if int(row[4]) == 0 and kronos.is_overdue(row[1], row[3]):
             print(divide())
             print(row)
 
