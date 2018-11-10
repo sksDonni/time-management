@@ -1,6 +1,3 @@
-import db
-
-
 def print_menu_and_get_input():
     print_ascii_banner(parse_ascii_banner("banner.txt"))
     return input('''
@@ -12,6 +9,10 @@ def print_menu_and_get_input():
 6: Delete your time management history.
 7: Quit.
 ''')
+
+
+def divide():
+    return '-' * 150
 
 
 def parse_ascii_banner(file):
@@ -38,13 +39,13 @@ def map_user_menu_choice_to_function(choice, proxy):
     elif choice == "2":
         set_a_todo_item_with_goal(proxy)
     elif choice == "3":
-        db.print_contents(proxy)
+        print_contents(proxy)
     elif choice == "4":
         complete_todo(proxy)
     elif choice == "5":
-        db.get_overdue_items(proxy)
+        print_overdue_items(proxy)
     elif choice == "6":
-        delete_history_and_exit(proxy)
+        delete_history(proxy)
     elif choice == "7":
         quit_program(proxy)
     else:
@@ -53,29 +54,45 @@ def map_user_menu_choice_to_function(choice, proxy):
 
 def make_a_note(proxy):
     note = input("Make a note: ")
-    db.update_table_with_note(proxy, note)
+    proxy.update_table_with_note(note)
 
 
 def set_a_todo_item_with_goal(proxy):
     note = input("Make a TODO item: ")
     days_until_completion = input("Set number of days to complete: ")
-    db.update_table_with_todo_and_goal(proxy, note, days_until_completion)
+    proxy.update_table_with_todo_and_goal(note, days_until_completion)
+
+
+def print_contents(proxy):
+    table_rows = proxy.get_all_items()
+    for row in table_rows:
+        print(divide())
+        print(row)
+    print(divide())
 
 
 def complete_todo(proxy):
     row_id = input("Select note id for completion: ")
-    db.update_completion(proxy, row_id)
+    proxy.update_completion(row_id)
 
 
-def quit_program(proxy):
-    print("Get outta here!")
-    proxy.connection.close()
-    quit()
+def print_overdue_items(proxy):
+    table_rows = proxy.get_overdue_items()
+    for row in table_rows:
+        print(divide())
+        print(row)
+    print(divide())
 
 
-def delete_history_and_exit(proxy):
+def delete_history(proxy):
     choice = input(
         "Are you sure you want to delete your history?\nSubmit 'y' to drop table or any other key to return the menu: ")
     if choice == "y":
         print("Deleting history...")
-        db.delete_history(proxy)
+        proxy.delete_history()
+
+
+def quit_program(proxy):
+    print("Get outta here!")
+    proxy.disconnect()
+    quit()

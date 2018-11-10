@@ -1,11 +1,10 @@
 import interface
-import db
-from proxy import DbProxy
+from proxy import DatabaseProxy
 
 
 def main():
-    proxy = DbProxy("time_management.db")
-    db.create_table(proxy)
+    proxy = DatabaseProxy()
+    proxy.create_table()
     interface.run_menu_loop(proxy)
 
 
