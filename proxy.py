@@ -58,6 +58,7 @@ class DatabaseProxy:
         self.cursor.execute("DROP TABLE {}".format(self.table_name))
         self.create_table()
         self.connection.commit()
+        self.rows_in_table = 0
 
     def disconnect(self):
         self.connection.close()
