@@ -10,10 +10,14 @@ class DatabaseProxy:
     schema = {"id": "id", "date": "date", "note": "note", "complete_in_days": "complete_in_days",
               "is_complete": "is_complete"}
 
+    # noinspection PyBroadException
     def __init__(self):
         self.connection = sqlite3.connect(self.database_name)
         self.cursor = self.connection.cursor()
-        self.rows_in_table = self.count_rows()
+        try:
+            self.rows_in_table = self.count_rows()
+        except:
+            print("Welcome to Time Management!\n\n")
 
     def create_table(self):
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS {}
