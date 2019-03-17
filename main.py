@@ -1,9 +1,9 @@
 import interface
-from proxy import DatabaseProxy
+from proxy import DatabaseFacade
 
 
 def main():
-    proxy = DatabaseProxy()
+    proxy = DatabaseFacade()
     proxy.create_table()
     interface.run_menu_loop(proxy)
 
