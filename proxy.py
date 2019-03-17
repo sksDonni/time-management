@@ -2,8 +2,7 @@ import sqlite3
 import kronos
 
 
-# Not really the Proxy pattern... more just a class. TODO :: find a better name for this.
-class DatabaseProxy:
+class DatabaseFacade:
     rows_in_table = 0
     database_name = "time_management.db"
     table_name = "time_management"
