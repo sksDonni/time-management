@@ -1,5 +1,5 @@
 import interface
-from proxy import DatabaseFacade
+from facade import DatabaseFacade
 
 
 def main():
