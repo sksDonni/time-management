@@ -3,9 +3,9 @@ from facade import DatabaseFacade
 
 
 def main():
-    proxy = DatabaseFacade()
-    proxy.create_table()
-    interface.run_menu_loop(proxy)
+    database_facade = DatabaseFacade()
+    database_facade.create_table()
+    interface.run_menu_loop(database_facade)
 
 
 if __name__ == "__main__":
