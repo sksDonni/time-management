@@ -27,72 +27,72 @@ def print_ascii_banner(lines):
         print(line.rstrip("\n"))
 
 
-def run_menu_loop(proxy):
+def run_menu_loop(facade):
     while True:
         choice = print_menu_and_get_input()
-        map_user_menu_choice_to_function(choice, proxy)
+        map_user_menu_choice_to_function(choice, facade)
 
 
-def map_user_menu_choice_to_function(choice, proxy):
+def map_user_menu_choice_to_function(choice, facade):
     if choice == "1":
-        make_a_note(proxy)
+        make_a_note(facade)
     elif choice == "2":
-        set_a_todo_item_with_goal(proxy)
+        set_a_todo_item_with_goal(facade)
     elif choice == "3":
-        print_contents(proxy)
+        print_contents(facade)
     elif choice == "4":
-        complete_todo(proxy)
+        complete_todo(facade)
     elif choice == "5":
-        print_overdue_items(proxy)
+        print_overdue_items(facade)
     elif choice == "6":
-        delete_history(proxy)
+        delete_history(facade)
     elif choice == "7":
-        quit_program(proxy)
+        quit_program(facade)
     else:
         print("Choice not recognized.")
 
 
-def make_a_note(proxy):
+def make_a_note(facade):
     note = input("Make a note: ")
-    proxy.update_table_with_note(note)
+    facade.update_table_with_note(note)
 
 
-def set_a_todo_item_with_goal(proxy):
+def set_a_todo_item_with_goal(facade):
     note = input("Make a TODO item: ")
     days_until_completion = input("Set number of days to complete: ")
-    proxy.update_table_with_todo_and_goal(note, days_until_completion)
+    facade.update_table_with_todo_and_goal(note, days_until_completion)
 
 
-def print_contents(proxy):
-    table_rows = proxy.get_all_items()
+def print_contents(facade):
+    table_rows = facade.get_all_items()
     for row in table_rows:
         print(divide())
         print(row)
     print(divide())
 
 
-def complete_todo(proxy):
+def complete_todo(facade):
     row_id = input("Select note id for completion: ")
-    proxy.update_completion(row_id)
+    facade.update_completion(row_id)
 
 
-def print_overdue_items(proxy):
-    table_rows = proxy.get_overdue_items()
+def print_overdue_items(facade):
+    table_rows = facade.get_overdue_items()
     for row in table_rows:
         print(divide())
         print(row)
     print(divide())
 
 
-def delete_history(proxy):
+def delete_history(facade):
     choice = input(
         "Are you sure you want to delete your history?\nSubmit 'y' to drop table or any other key to return the menu: ")
     if choice == "y":
         print("Deleting history...")
-        proxy.delete_history()
+        facade.delete_history()
 
 
-def quit_program(proxy):
+def quit_program(facade):
     print("Get outta here!")
-    proxy.disconnect()
+    facade.disconnect()
     quit()
