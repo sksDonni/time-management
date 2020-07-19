@@ -15,6 +15,7 @@ def print_menu_and_get_input():
 """
     )
 
+
 def parse_ascii_banner(file):
     f = open(file, "r")
     lines = f.readlines()
