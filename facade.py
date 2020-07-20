@@ -20,8 +20,9 @@ class DatabaseFacade:
         self.cursor = self.connection.cursor()
         try:
             self.rows_in_table = self.count_rows()
-        except:
             print("Welcome to Time Management!\n\n")
+        except ValueError:
+            print("Cannot read from database")
 
     def create_table(self):
         self.cursor.execute(
@@ -38,7 +39,7 @@ class DatabaseFacade:
             "INSERT INTO {} ({}, {}, {}, {}, {}) VALUES (?, ?, ?, ?, ?)".format(
                 self.table_name, *self.schema
             ),
-            (self.rows_in_table, kronos.get_date_time(), note, "-1", "-1"),
+            (self.rows_in_table, kronos.get_date_time_as_string(), note, "-1", "-1"),
         )
         self.connection.commit()
 
@@ -53,7 +54,13 @@ class DatabaseFacade:
             "INSERT INTO {} ({}, {}, {}, {}, {}) VALUES (?, ?, ?, ?, ?)".format(
                 self.table_name, *self.schema
             ),
-            (self.rows_in_table, kronos.get_date_time(), note, completion_goal, "0"),
+            (
+                self.rows_in_table,
+                kronos.get_date_time_as_string(),
+                note,
+                completion_goal,
+                "0",
+            ),
         )
         self.connection.commit()
 
@@ -95,6 +102,20 @@ class DatabaseFacade:
             days_to_complete = row[3]
             is_complete = row[4]
             if int(is_complete) == 0 and kronos.is_overdue(date, days_to_complete):
+                item = f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+                rows.append(item)
+        return rows
+
+    # TODO :: HANDLE MONDAY
+    def get_last_days_items(self):
+        rows = []
+        for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
+            item_no = row[0]
+            date = row[1]
+            note = row[2]
+            days_to_complete = row[3]
+            is_complete = row[4]
+            if kronos.is_yesterday(date):
                 item = f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
                 rows.append(item)
         return rows

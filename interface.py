@@ -10,8 +10,9 @@ def print_menu_and_get_input():
 3: Print your notes and TODOs.
 4: Complete a TODO.
 5: Print overdue TODOs.
-6: Delete your time management history.
-7: Quit.
+6: Print SCRUM notes.
+7: Delete your time management history.
+8: Quit.
 """
     )
 
@@ -46,8 +47,10 @@ def map_user_menu_choice_to_function(choice, facade):
     elif choice == "5":
         print_overdue_items(facade)
     elif choice == "6":
-        delete_history(facade)
+        print_scrum_notes(facade)
     elif choice == "7":
+        delete_history(facade)
+    elif choice == "8":
         quit_program(facade)
     else:
         print("Choice not recognized.")
@@ -93,6 +96,14 @@ def complete_todo(facade):
 def print_overdue_items(facade):
     clear_screen()
     table_rows = facade.get_overdue_items()
+    for row in table_rows:
+        print(row)
+
+
+def print_scrum_notes(facade):
+    clear_screen()
+    print_ascii_banner(parse_ascii_banner("SCRUM.txt"))
+    table_rows = facade.get_last_days_items()
     for row in table_rows:
         print(row)
 
