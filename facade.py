@@ -74,35 +74,15 @@ class DatabaseFacade:
     def get_all_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
-
-            item_no = row[0]
-            date = row[1]
-            note = row[2]
-            days_to_complete = row[3]
-            is_complete = row[4]
-
-            if days_to_complete == "-1":
-                days_to_complete = "NA"
-                is_complete = "NA"
-            elif is_complete == "0":
-                is_complete = "false"
-            else:
-                is_complete = "true"
-
-            item = f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+            item = self.__format_row(row)
             rows.append(item)
         return rows
 
     def get_overdue_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
-            item_no = row[0]
-            date = row[1]
-            note = row[2]
-            days_to_complete = row[3]
-            is_complete = row[4]
-            if int(is_complete) == 0 and kronos.is_overdue(date, days_to_complete):
-                item = f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+            if int(row[4]) == 0 and kronos.is_overdue(row[1], row[3]):
+                item = self.__format_row(row)
                 rows.append(item)
         return rows
 
@@ -110,13 +90,8 @@ class DatabaseFacade:
     def get_last_days_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
-            item_no = row[0]
-            date = row[1]
-            note = row[2]
-            days_to_complete = row[3]
-            is_complete = row[4]
-            if kronos.is_yesterday(date):
-                item = f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+            if kronos.is_yesterday(row[1]):
+                item = self.__format_row(row)
                 rows.append(item)
         return rows
 
@@ -128,3 +103,26 @@ class DatabaseFacade:
 
     def disconnect(self):
         self.connection.close()
+
+    # TODO :: REFACTOR
+    def __interpret_sentinel(self, field):
+        if field == "-1":
+            return "NA"
+        return field
+
+    # TODO :: REFACTOR
+    def __interperate_primitive_as_boolean(self, field):
+        if field == "-1":
+            return "NA"
+        elif field == "0":
+            return "false"
+        else:
+            return "true"
+
+    def __format_row(self, row):
+        item_no = row[0]
+        date = row[1]
+        note = row[2]
+        days_to_complete = self.__interpret_sentinel(row[3])
+        is_complete = self.__interperate_primitive_as_boolean(row[4])
+        return f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"

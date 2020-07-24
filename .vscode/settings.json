@@ -3,5 +3,6 @@
         "sqlite",
         "strftime",
         "strptime"
-    ]
+    ],
+    "python.formatting.provider": "black"
 }

@@ -23,6 +23,10 @@ clean:
 test:
 	python -m unittest discover . "*_test.py"
 
+.PHONY: run
+run:
+	python3 main.py
+
 .PHONY: remove
 remove:
 	pipenv --rm
