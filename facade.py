@@ -14,7 +14,6 @@ class DatabaseFacade:
         "is_complete": "is_complete",
     }
 
-    # noinspection PyBroadException
     def __init__(self):
         self.connection = sqlite3.connect(self.database_name)
         self.cursor = self.connection.cursor()
@@ -39,7 +38,7 @@ class DatabaseFacade:
             "INSERT INTO {} ({}, {}, {}, {}, {}) VALUES (?, ?, ?, ?, ?)".format(
                 self.table_name, *self.schema
             ),
-            (self.rows_in_table, kronos.get_date_time_as_string(), note, "-1", "-1"),
+            (self.rows_in_table, kronos.get_date_time_as_string(), note, "NA", "NA"),
         )
         self.connection.commit()
 
@@ -48,7 +47,7 @@ class DatabaseFacade:
             self.cursor.execute("SELECT * FROM {}".format(self.table_name)).fetchall()
         )
 
-    def update_table_with_todo_and_goal(self, note, completion_goal):
+    def update_table_with_task(self, note, completion_goal):
         self.rows_in_table = self.rows_in_table + 1
         self.cursor.execute(
             "INSERT INTO {} ({}, {}, {}, {}, {}) VALUES (?, ?, ?, ?, ?)".format(
@@ -59,16 +58,14 @@ class DatabaseFacade:
                 kronos.get_date_time_as_string(),
                 note,
                 completion_goal,
-                "0",
+                "false",
             ),
         )
         self.connection.commit()
 
     def update_completion(self, row_id):
         self.cursor.execute(
-            "UPDATE {} SET {} = {} WHERE id = {}".format(
-                self.table_name, self.schema["is_complete"], 1, row_id
-            )
+            f"UPDATE {self.table_name} SET {self.schema['is_complete']} = 'true' WHERE id = {row_id}"
         )
 
     def get_all_items(self):
@@ -81,9 +78,10 @@ class DatabaseFacade:
     def get_overdue_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
-            if int(row[4]) == 0 and kronos.is_overdue(row[1], row[3]):
-                item = self.__format_row(row)
-                rows.append(item)
+            if row[4] != "NA" and row[4] != "false":
+                if kronos.is_overdue(row[1], row[3]):
+                    item = self.__format_row(row)
+                    rows.append(item)
         return rows
 
     # TODO :: HANDLE MONDAY
@@ -95,6 +93,14 @@ class DatabaseFacade:
                 rows.append(item)
         return rows
 
+    def __format_row(self, row):
+        item_no = row[0]
+        date = row[1]
+        note = row[2]
+        days_to_complete = row[3]
+        is_complete = row[4]
+        return f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+
     def delete_history(self):
         self.cursor.execute("DROP TABLE {}".format(self.table_name))
         self.create_table()
@@ -103,26 +109,3 @@ class DatabaseFacade:
 
     def disconnect(self):
         self.connection.close()
-
-    # TODO :: REFACTOR
-    def __interpret_sentinel(self, field):
-        if field == "-1":
-            return "NA"
-        return field
-
-    # TODO :: REFACTOR
-    def __interperate_primitive_as_boolean(self, field):
-        if field == "-1":
-            return "NA"
-        elif field == "0":
-            return "false"
-        else:
-            return "true"
-
-    def __format_row(self, row):
-        item_no = row[0]
-        date = row[1]
-        note = row[2]
-        days_to_complete = self.__interpret_sentinel(row[3])
-        is_complete = self.__interperate_primitive_as_boolean(row[4])
-        return f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
