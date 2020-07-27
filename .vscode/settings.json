@@ -1,8 +1,0 @@
-{
-    "cSpell.words": [
-        "sqlite",
-        "strftime",
-        "strptime"
-    ],
-    "python.formatting.provider": "black"
-}
