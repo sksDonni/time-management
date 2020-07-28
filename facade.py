@@ -67,6 +67,7 @@ class DatabaseFacade:
         self.cursor.execute(
             f"UPDATE {self.table_name} SET {self.schema['is_complete']} = 'true' WHERE id = {row_id}"
         )
+        self.connection.commit()
 
     def get_all_items(self):
         rows = []
