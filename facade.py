@@ -78,7 +78,7 @@ class DatabaseFacade:
     def get_overdue_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
-            if row[4] != "NA" and row[4] != "false":
+            if row[3] != "NA" and row[4] == "false":
                 if kronos.is_overdue(row[1], row[3]):
                     item = self.__format_row(row)
                     rows.append(item)
@@ -99,7 +99,10 @@ class DatabaseFacade:
         note = row[2]
         days_to_complete = row[3]
         is_complete = row[4]
-        return f"Item No: {item_no}, Date: {date}, Note: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
+        record_type = "Task"
+        if days_to_complete == "NA":
+            record_type = "Note"
+        return f"Item No: {item_no}, Date: {date}, {record_type}: {note}, Days to complete: {days_to_complete}, Completed: {is_complete}"
 
     def delete_history(self):
         self.cursor.execute("DROP TABLE {}".format(self.table_name))
