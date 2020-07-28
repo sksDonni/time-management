@@ -22,6 +22,7 @@ def prompt_mode():
 
 def map_choice_to_function(choice, facade):
     if choice == "1":
+        clear_screen()
         run_menu_loop_tm(facade)
     elif choice == "2":
         pass

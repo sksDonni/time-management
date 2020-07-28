@@ -7,7 +7,7 @@ from interface_common import (
 
 
 def prompt_time_management():
-    print_ascii_banner(parse_ascii_banner("banners/time_management.txt"))
+    print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
     return input(
         """
 1: Make a note.
@@ -25,6 +25,7 @@ def prompt_time_management():
 def run_menu_loop_tm(facade):
     while True:
         choice = prompt_time_management()
+        clear_screen()
         map_choice_to_function(choice, facade)
 
 
