@@ -4,7 +4,6 @@ from facade import DatabaseFacade
 
 def main():
     database_facade = DatabaseFacade()
-    database_facade.create_table()
     run_menu_loop_mode(database_facade)
 
 

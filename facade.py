@@ -15,13 +15,14 @@ class DatabaseFacade:
     }
 
     def __init__(self):
-        self.connection = sqlite3.connect(self.database_name)
-        self.cursor = self.connection.cursor()
         try:
+            self.connection = sqlite3.connect(self.database_name)
+            self.cursor = self.connection.cursor()
+            self.create_table()
             self.rows_in_table = self.count_rows()
             print("Welcome to Time Management!\n\n")
         except ValueError:
-            print("Cannot read from database")
+            print("Unable to initialize or read from database")
 
     def create_table(self):
         self.cursor.execute(
