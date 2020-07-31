@@ -68,9 +68,12 @@ def set_a_task(facade):
 def print_contents(facade):
     clear_screen()
     table_rows = facade.get_all_items()
-    for row in table_rows:
-        print(row)
-    print("\n\n")
+    if len(table_rows) == 0:
+        return
+    else:
+        for row in table_rows:
+            print(row)
+        print("\n\n")
 
 
 def complete_task(facade):
