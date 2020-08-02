@@ -1,3 +1,14 @@
+    _|      _|    _|_|    _|_|_|    _|_|_|_|  
+    _|_|  _|_|  _|    _|  _|    _|  _|        
+    _|  _|  _|  _|    _|  _|    _|  _|_|_|    
+    _|      _|  _|    _|  _|    _|  _|        
+    _|      _|    _|_|    _|_|_|    _|_|_|_| 
+
+    1: Time management
+    2: Analytics
+    3: Maintenance
+    4: Quit
+
 # Time Management
 Time Management (TM) helps you to keep track of your day-to-day life as a software developer. Using TM you can:
 
