@@ -13,16 +13,16 @@
         _|      _|_|  _|_|  
         _|      _|  _|  _|  
         _|      _|      _|  
-        _|      _|      _|  
+        _|      _|      _|
 
-    1: Make a note.
-    2: Set a task and completion goal.
-    3: Print notes and tasks.
-    4: Complete a task.
-    5: Print overdue tasks.
-    6: Print SCRUM notes.
-    7: Delete history.
-    8: Quit.
+    1: Make a note
+    2: Set a task and completion goal
+    3: Print notes and tasks
+    4: Complete a task
+    5: Print overdue tasks
+    6: Print SCRUM notes
+    7: Delete history
+    8: Quit
 
 # Time Management
 Time Management (TM) helps you to keep track of your day-to-day life as a software developer. Using TM you can:

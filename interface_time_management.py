@@ -10,14 +10,14 @@ def prompt_time_management():
     print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
     return input(
         """
-1: Make a note.
-2: Set a task and completion goal.
-3: Print notes and tasks.
-4: Complete a task.
-5: Print overdue tasks.
-6: Print SCRUM notes.
-7: Delete history.
-8: Quit.
+1: Make a note
+2: Set a task and completion goal
+3: Print notes and tasks
+4: Complete a task
+5: Print overdue tasks
+6: Print SCRUM notes
+7: Delete history
+8: Quit
 """
     )
 
