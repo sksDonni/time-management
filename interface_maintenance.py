@@ -26,7 +26,7 @@ def run_menu_loop_maintenance(facade):
 def map_choice_to_function(choice, facade):
     if choice == "1":
         delete_history(facade)
-    if choice == "2":
+    elif choice == "2":
         quit_program(facade)
     else:
         print("Choice not recognized.")
@@ -40,4 +40,3 @@ def delete_history(facade):
     if choice == "y":
         print("Deleting history...")
         facade.delete_history()
-    clear_screen()
