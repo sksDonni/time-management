@@ -9,15 +9,13 @@ from interface_common import (
 def prompt_time_management():
     print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
     return input(
-        """
-1: Make a note
+"""1: Make a note
 2: Set a task and completion goal
 3: Print notes and tasks
 4: Complete a task
 5: Print overdue tasks
 6: Print SCRUM notes
-7: Delete history
-8: Quit
+7: Quit
 """
     )
 
@@ -43,8 +41,6 @@ def map_choice_to_function(choice, facade):
     elif choice == "6":
         print_scrum_notes(facade)
     elif choice == "7":
-        delete_history(facade)
-    elif choice == "8":
         quit_program(facade)
     else:
         print("Choice not recognized.")
@@ -97,14 +93,3 @@ def print_scrum_notes(facade):
     for row in table_rows:
         print(row)
 
-
-# TODO :: SEND TO MAINTENACE MODE
-def delete_history(facade):
-    clear_screen()
-    choice = input(
-        "Are you sure you want to delete your history?\nSubmit 'y' to drop table or any other key to return the menu: "
-    )
-    if choice == "y":
-        print("Deleting history...")
-        facade.delete_history()
-    clear_screen()
