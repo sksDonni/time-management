@@ -12,7 +12,8 @@ def prompt_mode():
     clear_screen()
     print_ascii_banner(parse_ascii_banner("banners/mode.txt"))
     return input(
-"""1: Time management
+        """
+1: Time management
 2: Analytics
 3: Maintenance
 4: Quit

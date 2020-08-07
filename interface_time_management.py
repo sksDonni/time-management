@@ -9,7 +9,7 @@ from interface_common import (
 def prompt_time_management():
     print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
     return input(
-"""1: Make a note
+        """1: Make a note
 2: Set a task and completion goal
 3: Print notes and tasks
 4: Complete a task
@@ -92,4 +92,3 @@ def print_scrum_notes(facade):
     table_rows = facade.get_last_days_items()
     for row in table_rows:
         print(row)
-

@@ -11,8 +11,8 @@ def parse_ascii_banner(file):
 def print_ascii_banner(lines):
     for line in lines:
         print(line.rstrip("\n"))
-    print ("\n")
-    
+    print("\n")
+
 
 def clear_screen():
     if name == "nt":
