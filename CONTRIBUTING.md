@@ -5,7 +5,7 @@
 # Using Make
 
   * [GNU Make](https://www.gnu.org/software/make/) may be used for greater brevity and efficiency in the development process
-  * Make targets invoke:
+  * Make rules invoke:
     * Virtual environment initialization
     * Dependency installation
     * Linting
