@@ -3,13 +3,15 @@ from interface_common import (
     print_ascii_banner,
     quit_program,
     clear_screen,
+    to_previous_menu,
 )
 
 
 def prompt_time_management():
     print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
     return input(
-        """1: Make a note
+        """0: Return to mode menu
+1: Make a note
 2: Set a task and completion goal
 3: Print notes and tasks
 4: Complete a task
@@ -23,12 +25,13 @@ def prompt_time_management():
 def run_menu_loop_tm(facade):
     while True:
         choice = prompt_time_management()
-        clear_screen()
         map_choice_to_function(choice, facade)
 
 
 def map_choice_to_function(choice, facade):
-    if choice == "1":
+    if choice == "0":
+        to_previous_menu(facade)
+    elif choice == "1":
         make_a_note(facade)
     elif choice == "2":
         set_a_task(facade)
@@ -48,17 +51,27 @@ def map_choice_to_function(choice, facade):
 
 def make_a_note(facade):
     clear_screen()
+    print("0 to cancel\n")
     note = input("Make a note: ")
-    facade.update_table_with_note(note)
-    clear_screen()
+    if note == "0":
+        clear_screen()
+        run_menu_loop_tm(facade)
+    else:
+        facade.update_table_with_note(note)
+        clear_screen()
 
 
 def set_a_task(facade):
     clear_screen()
+    print("0 to cancel\n")
     note = input("Set a task: ")
-    days_until_completion = input("Set number of days to complete: ")
-    facade.update_table_with_task(note, days_until_completion)
-    clear_screen()
+    if note == "0":
+        clear_screen()
+        run_menu_loop_tm(facade)
+    else:
+        days_until_completion = input("Set number of days to complete: ")
+        facade.update_table_with_task(note, days_until_completion)
+        clear_screen()
 
 
 def print_contents(facade):
@@ -74,9 +87,14 @@ def print_contents(facade):
 
 def complete_task(facade):
     clear_screen()
+    print("0 to cancel\n")
     row_id = input("Select note id for completion: ")
-    facade.update_completion(row_id)
-    clear_screen()
+    if row_id == "0":
+        clear_screen()
+        run_menu_loop_tm(facade)
+    else:
+        facade.update_completion(row_id)
+        clear_screen()
 
 
 def print_overdue_tasks(facade):

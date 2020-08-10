@@ -3,6 +3,7 @@ from interface_common import (
     print_ascii_banner,
     clear_screen,
     quit_program,
+    to_previous_menu,
 )
 
 
@@ -10,6 +11,7 @@ def prompt_maintenance():
     print_ascii_banner(parse_ascii_banner("banners/maintenance.txt"))
     return input(
         """
+0: Return to mode menu
 1: Delete history
 2: Quit
 """
@@ -19,12 +21,13 @@ def prompt_maintenance():
 def run_menu_loop_maintenance(facade):
     while True:
         choice = prompt_maintenance()
-        clear_screen()
         map_choice_to_function(choice, facade)
 
 
 def map_choice_to_function(choice, facade):
-    if choice == "1":
+    if choice == "0":
+        to_previous_menu(facade)
+    elif choice == "1":
         delete_history(facade)
     elif choice == "2":
         quit_program(facade)
@@ -35,8 +38,10 @@ def map_choice_to_function(choice, facade):
 def delete_history(facade):
     clear_screen()
     choice = input(
-        "Are you sure you want to delete your history?\nSubmit 'y' to drop table or any other key to return the menu: "
+        "Are you sure you want to delete your history?\nSubmit 'y' to drop table\nSubmit 'n' to return to maintenance\n"
     )
     if choice == "y":
         print("Deleting history...")
         facade.delete_history()
+    elif choice == "n":
+        run_menu_loop_maintenance(facade)

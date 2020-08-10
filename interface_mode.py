@@ -3,13 +3,14 @@ from interface_common import (
     print_ascii_banner,
     quit_program,
     clear_screen,
+    initialize_menu,
 )
 from interface_time_management import run_menu_loop_tm
 from interface_maintenance import run_menu_loop_maintenance
 
 
 def prompt_mode():
-    clear_screen()
+    initialize_menu(run_menu_loop_mode)
     print_ascii_banner(parse_ascii_banner("banners/mode.txt"))
     return input(
         """
@@ -23,12 +24,12 @@ def prompt_mode():
 
 def map_choice_to_function(choice, facade):
     if choice == "1":
-        clear_screen()
+        initialize_menu(run_menu_loop_tm)
         run_menu_loop_tm(facade)
     elif choice == "2":
         pass
     elif choice == "3":
-        clear_screen()
+        initialize_menu(run_menu_loop_maintenance)
         run_menu_loop_maintenance(facade)
     elif choice == "4":
         quit_program(facade)

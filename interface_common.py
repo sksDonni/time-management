@@ -1,5 +1,7 @@
 from os import system, name
 
+menu_cache = []
+
 
 def parse_ascii_banner(file):
     f = open(file, "r")
@@ -25,3 +27,15 @@ def quit_program(facade):
     print("Get outta here!")
     facade.disconnect()
     quit()
+
+
+def initialize_menu(menu_loop):
+    clear_screen()
+    menu_cache.append(menu_loop)
+
+
+def to_previous_menu(facade):
+    clear_screen()
+    menu_cache[-2](facade)
+
+
