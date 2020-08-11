@@ -3,6 +3,7 @@ from facade import DatabaseFacade
 
 
 def main():
+    print("Welcome to Time Management!\n\n")
     database_facade = DatabaseFacade()
     run_menu_loop_mode(database_facade)
 
