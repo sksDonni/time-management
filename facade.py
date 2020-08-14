@@ -76,6 +76,12 @@ class DatabaseFacade:
             rows.append(item)
         return rows
 
+    def get_all_ids(self):
+        ids = []
+        for id in self.cursor.execute("SELECT id FROM {}".format(self.table_name)):
+            ids.append(id[0])
+        return ids
+
     def get_overdue_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
