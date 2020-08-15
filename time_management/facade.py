@@ -91,7 +91,6 @@ class DatabaseFacade:
                     rows.append(item)
         return rows
 
-    # TODO :: HANDLE MONDAY
     def get_last_days_items(self):
         rows = []
         for row in self.cursor.execute("SELECT * FROM {}".format(self.table_name)):
