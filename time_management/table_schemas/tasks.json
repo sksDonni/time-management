@@ -1,5 +1,6 @@
 {
     "id": "int",
+    "type": "text",
     "date": "text",
     "task": "text",
     "complete_in_days": "text",

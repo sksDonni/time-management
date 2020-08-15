@@ -1,5 +1,6 @@
 {
     "id": "int",
+    "type": "text",
     "date": "text",
     "note": "text"
 }
