@@ -8,7 +8,7 @@ from interface_common import (
 
 
 def prompt_maintenance():
-    print_ascii_banner(parse_ascii_banner("banners/maintenance.txt"))
+    print_ascii_banner(parse_ascii_banner("time_management/banners/maintenance.txt"))
     return input(
         """
 0: Return to mode menu

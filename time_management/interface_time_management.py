@@ -8,7 +8,7 @@ from interface_common import (
 
 
 def prompt_time_management():
-    print_ascii_banner(parse_ascii_banner("banners/tm.txt"))
+    print_ascii_banner(parse_ascii_banner("time_management/banners/tm.txt"))
     return input(
         """0: Return to mode menu
 1: Make a note
@@ -99,7 +99,7 @@ def complete_task(facade, first_run=True):
     elif task_id_is_valid(task_id, facade.get_all_ids()):
         facade.update_completion(task_id)
         clear_screen()
-    else: 
+    else:
         complete_task(facade, False)
 
 
@@ -119,7 +119,7 @@ def print_overdue_tasks(facade):
 
 def print_scrum_notes(facade):
     clear_screen()
-    print_ascii_banner(parse_ascii_banner("banners/scrum.txt"))
+    print_ascii_banner(parse_ascii_banner("time_management/banners/scrum.txt"))
     table_rows = facade.get_last_days_items()
     for row in table_rows:
         print(row)

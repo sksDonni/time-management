@@ -2,7 +2,6 @@ from interface_common import (
     parse_ascii_banner,
     print_ascii_banner,
     quit_program,
-    clear_screen,
     initialize_menu,
 )
 from interface_time_management import run_menu_loop_tm
@@ -11,7 +10,7 @@ from interface_maintenance import run_menu_loop_maintenance
 
 def prompt_mode():
     initialize_menu(run_menu_loop_mode)
-    print_ascii_banner(parse_ascii_banner("banners/mode.txt"))
+    print_ascii_banner(parse_ascii_banner("time_management/banners/mode.txt"))
     return input(
         """
 1: Time management

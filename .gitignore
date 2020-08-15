@@ -1,5 +1,5 @@
 # SQLite
-*.db
+time_management.db
 
 # Visual Studio code
 .vscode/

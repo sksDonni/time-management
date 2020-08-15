@@ -37,5 +37,3 @@ def initialize_menu(menu_loop):
 def to_previous_menu(facade):
     clear_screen()
     menu_cache[-2](facade)
-
-

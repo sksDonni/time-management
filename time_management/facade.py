@@ -4,7 +4,6 @@ import kronos
 
 class DatabaseFacade:
     rows_in_table = 0
-    database_name = "time_management.db"
     table_name = "time_management"
     schema = {
         "id": "id",
@@ -14,8 +13,9 @@ class DatabaseFacade:
         "is_complete": "is_complete",
     }
 
-    def __init__(self):
+    def __init__(self, name=":memory:"):
         try:
+            self.database_name = name
             self.connection = sqlite3.connect(self.database_name)
             self.cursor = self.connection.cursor()
             self.create_table()
