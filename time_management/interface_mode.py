@@ -11,7 +11,7 @@ import os
 
 def prompt_mode():
     initialize_menu(run_menu_loop_mode)
-    banner = os.path.join(os.path.dirname(__file__),"banners/mode.txt")
+    banner = os.path.join(os.path.dirname(__file__), "banners/mode.txt")
     print_ascii_banner(parse_ascii_banner(banner))
     return input(
         """

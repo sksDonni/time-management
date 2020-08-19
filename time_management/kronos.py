@@ -13,6 +13,7 @@ week_days = {
     6: "Sunday",
 }
 
+
 def get_date_time():
     return datetime.now()
 

@@ -5,6 +5,7 @@ import kronos
 string_format_time = "%Y-%m-%d %H:%M:%S"
 date_time_str = "2020-07-19 18:14:21"
 
+
 class KronosTest(unittest.TestCase):
     def test_get_day_of_week(self):
         for i in range(len(kronos.week_days)):

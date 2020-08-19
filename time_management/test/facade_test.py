@@ -1,6 +1,7 @@
 import unittest
 from facade import DatabaseFacade
 
+
 class FacadeTest(unittest.TestCase):
     def setUp(self) -> None:
         self._database = DatabaseFacade()
