@@ -26,13 +26,14 @@ def clear_screen():
 
 
 def quit_program(facade):
-    print("Get outta here!")
+    clear_screen()
     facade.disconnect()
     quit()
 
 
-def initialize_menu(menu_loop):
-    clear_screen()
+def initialize_menu(menu_loop, is_startup=False):
+    if not is_startup:
+        clear_screen()
     menu_cache.append(menu_loop)
 
 

@@ -1,5 +1,4 @@
 import unittest
-import datetime
 import kronos
 
 string_format_time = "%Y-%m-%d %H:%M:%S"
@@ -33,3 +32,13 @@ class KronosTest(unittest.TestCase):
         on_time_date = kronos.get_date_time_as_string()
         on_time_goal = 100
         self.assertFalse(kronos.is_overdue(on_time_date, on_time_goal))
+
+    def test_get_time_of_day(self):
+        date_time_morning = kronos.get_date_time_from_string("2020-07-19 08:14:21")
+        self.assertEqual("Morning", kronos.get_time_of_day(date_time_morning))
+
+        date_time_afternoon = kronos.get_date_time_from_string("2020-07-19 12:14:21")
+        self.assertEqual("Afternoon", kronos.get_time_of_day(date_time_afternoon))
+
+        date_time_evening = kronos.get_date_time_from_string("2020-07-19 20:14:21")
+        self.assertEqual("Evening", kronos.get_time_of_day(date_time_evening))

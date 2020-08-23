@@ -4,7 +4,7 @@ from interface_common import (
     quit_program,
     clear_screen,
     to_previous_menu,
-    display, #InterfaceDisplay instance to format given data from facade
+    display,  # InterfaceDisplay instance to format given data from facade
 )
 import os
 
@@ -124,6 +124,6 @@ def print_scrum_notes(facade):
     clear_screen()
     banner = os.path.join(os.path.dirname(__file__), "banners/scrum.txt")
     print_ascii_banner(parse_ascii_banner(banner))
-    table_rows =display.display_last_days_items(facade)
+    table_rows = display.display_last_days_items(facade)
     for row in table_rows:
         print(row)

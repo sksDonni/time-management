@@ -71,7 +71,7 @@ class DatabaseFacade:
 
     def get_raw_values(self):
         cur = self.connection.cursor()
-        cur.execute("SELECT * FROM time_management")#{}".format(self.table_name))
+        cur.execute("SELECT * FROM time_management")  # {}".format(self.table_name))
         return cur.fetchall()
 
     def get_all_items(self):
@@ -79,7 +79,6 @@ class DatabaseFacade:
         for row in self.get_raw_values():
             rows.append(row)
         return rows
-
 
     def get_all_ids(self):
         ids = []

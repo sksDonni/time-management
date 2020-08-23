@@ -13,6 +13,12 @@ week_days = {
     6: "Sunday",
 }
 
+__times_of_day = {
+    range(0, 11): "Morning",
+    range(12, 17): "Afternoon",
+    range(18, 23): "Evening",
+}
+
 
 def get_date_time():
     return datetime.now()
@@ -24,6 +30,15 @@ def get_date_time_as_string():
 
 def get_date_time_from_string(date_time_str):
     return datetime.strptime(date_time_str, string_format_time)
+
+
+def get_time_of_day(now=get_date_time()):
+    hour = now.time().hour
+    time_of_day = ""
+    for key, value in __times_of_day.items():
+        if hour in key:
+            time_of_day = value
+    return time_of_day
 
 
 def get_day_of_week(date_time):

@@ -1,7 +1,4 @@
-
-
 class FacadeFormatter:
-
     def format_row(self, row):
         item_no = row[0]
         date = row[1]
