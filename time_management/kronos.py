@@ -14,9 +14,9 @@ week_days = {
 }
 
 __times_of_day = {
-    range(0, 11): "Morning",
-    range(12, 17): "Afternoon",
-    range(18, 23): "Evening",
+    range(0, 12): "Morning",
+    range(12, 18): "Afternoon",
+    range(18, 24): "Evening",
 }
 
 
