@@ -19,9 +19,9 @@ def on_startup(facade):
     welcome_statement = (
         f"Good {time_of_day} {user}. You have {number_of_overdue_items} overdue items."
     )
-    print(2 * "\n")
+    print("\n")
     print(welcome_statement)
-    print(2 * "\n")
+    print("\n")
 
 
 if __name__ == "__main__":
