@@ -10,10 +10,10 @@ class TimeManagementTest(unittest.TestCase):
 
         invalid1 = "one"
         invalid2 = "o32o"
-        self.assertFalse(interface_time_management.task_id_is_valid(invalid1, ids))
-        self.assertFalse(interface_time_management.task_id_is_valid(invalid2, ids))
+        self.assertFalse(interface_time_management.are_valid_tasks(invalid1, ids))
+        self.assertFalse(interface_time_management.are_valid_tasks(invalid2, ids))
 
         valid1 = "1"
         valid2 = "2"
-        self.assertTrue(interface_time_management.task_id_is_valid(valid1, ids))
-        self.assertTrue(interface_time_management.task_id_is_valid(valid2, ids))
+        self.assertTrue(interface_time_management.are_valid_tasks(valid1, ids))
+        self.assertTrue(interface_time_management.are_valid_tasks(valid2, ids))

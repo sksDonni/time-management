@@ -17,7 +17,7 @@ def prompt_time_management():
 1: Make a note
 2: Set a task and completion goal
 3: Print notes and tasks
-4: Complete a task
+4: Complete tasks
 5: Print overdue tasks
 6: Print SCRUM notes
 7: Quit
@@ -85,32 +85,47 @@ def print_contents(facade):
     else:
         for row in table_rows:
             print(row)
-        print("\n\n")
+        print(2 * "\n")
 
 
 def complete_task(facade, first_run=True):
     clear_screen()
     print("0 to cancel\n")
     if first_run:
-        task_id = input("Select task id for completion: ")
+        task_input = input("Enter space delimited task IDs for completion: ")
     else:
-        task_id = input("Task id not found. Please choose another: ")
+        task_input = input("One or more task IDs not found. Please try again: ")
 
-    if task_id == "0":
+    task_ids = split_tasks(task_input)
+
+    if task_ids[0] == "0":
         clear_screen()
         run_menu_loop_tm(facade)
-    elif task_id_is_valid(task_id, facade.get_all_ids()):
-        facade.update_completion(task_id)
+    elif are_valid_tasks(task_ids, facade.get_all_ids()):
+        for task_id in task_ids:
+            facade.update_completion(task_id)
         clear_screen()
     else:
         complete_task(facade, False)
 
 
-def task_id_is_valid(task_id, ids):
-    if task_id.isdigit():
-        return int(task_id) in ids
-    else:
+# TODO :: CHECK FOR ALREADY COMPLETE TASKS USING DEFINED TASK SCHEMA
+def are_valid_tasks(tasks_to_complete, valid_task_ids):
+    valid_tasks = []
+    invalid_tasks = []
+    for task_id in tasks_to_complete:
+        if task_id.isdigit() and (int(task_id) in valid_task_ids):
+            valid_tasks.append(task_id)
+        else:
+            invalid_tasks.append(task_id)
+    if invalid_tasks:
         return False
+    else:
+        return True
+
+
+def split_tasks(input_tasks):
+    return input_tasks.split()
 
 
 def print_overdue_tasks(facade):
