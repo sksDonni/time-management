@@ -4,8 +4,9 @@ from interface_common import (
     quit_program,
     initialize_menu,
 )
-from interface_time_management import run_menu_loop_tm
-from interface_maintenance import run_menu_loop_maintenance
+from interface_tm import run_menu_loop_tm
+from interface_maint import run_menu_loop_maintenance
+from interface_lytics import run_menu_loop_analytics
 import os
 
 
@@ -28,7 +29,8 @@ def map_choice_to_function(choice, facade):
         initialize_menu(run_menu_loop_tm)
         run_menu_loop_tm(facade)
     elif choice == "2":
-        pass
+        initialize_menu(run_menu_loop_analytics)
+        run_menu_loop_analytics(facade)
     elif choice == "3":
         initialize_menu(run_menu_loop_maintenance)
         run_menu_loop_maintenance(facade)

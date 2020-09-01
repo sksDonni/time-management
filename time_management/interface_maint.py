@@ -9,7 +9,7 @@ import os
 
 
 def prompt_maintenance():
-    banner = os.path.join(os.path.dirname(__file__), "banners/maintenance.txt")
+    banner = os.path.join(os.path.dirname(__file__), "banners/maint.txt")
     print_ascii_banner(parse_ascii_banner(banner))
     return input(
         """
