@@ -1,9 +1,10 @@
 {
     "id": "int",
     "type": "text",
-    "date": "text",
+    "date_set": "text",
     "task": "text",
     "complete_in_days": "text",
+    "date_complete": "text",
     "is_complete": "text",
     "is_void": "text"
 }

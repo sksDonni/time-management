@@ -1,0 +1,6 @@
+{
+    "id": "int",
+    "type": "text",
+    "user" : "text",
+    "startup_message" : "text"
+}

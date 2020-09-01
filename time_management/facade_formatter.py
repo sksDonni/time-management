@@ -8,4 +8,4 @@ class FacadeFormatter:
         record_type = "Task"
         if days_to_complete == "NA":
             record_type = "Note"
-        return f"{item_no} Date: {date}, {record_type}: {note} Days to complete: {days_to_complete} Completed: {is_complete}"
+        return f"{item_no} Date: {date} {record_type}: {note} Days to complete: {days_to_complete} Completed: {is_complete}"

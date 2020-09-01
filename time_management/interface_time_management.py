@@ -13,9 +13,9 @@ def prompt_time_management():
     banner = os.path.join(os.path.dirname(__file__), "banners/tm.txt")
     print_ascii_banner(parse_ascii_banner(banner))
     return input(
-        """0: Return to mode menu
+        """0: Return to MODE
 1: Make a note
-2: Set a task and completion goal
+2: Set a task
 3: Print notes and tasks
 4: Complete tasks
 5: Print overdue tasks

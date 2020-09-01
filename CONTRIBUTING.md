@@ -34,6 +34,9 @@
   * Naming
     * Functions: lower_case_with_underscores (snake_Case)
     * Variables: lower_case_with_underscores (snake_Case)
+      * Boolean: 
+        * Singular: is_predicate
+        * Plural: are_predicate
     * Modules: lower_case_with_underscores (snake_Case)
     * Packages: lower_case_with_underscores (snake_Case)
     * Classes: CapWords convention (PascalCase)

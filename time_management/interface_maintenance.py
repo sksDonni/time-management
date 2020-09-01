@@ -13,7 +13,7 @@ def prompt_maintenance():
     print_ascii_banner(parse_ascii_banner(banner))
     return input(
         """
-0: Return to mode menu
+0: Return to MODE
 1: Delete history
 2: Quit
 """
@@ -43,7 +43,7 @@ def delete_history(facade):
         "Are you sure you want to delete your history?\nSubmit 'y' to drop table\nSubmit 'n' to return to maintenance\n"
     )
     if choice == "y":
-        print("Deleting history...")
+        print("\nDeleting history...\n\n")
         facade.delete_history()
     elif choice == "n":
         run_menu_loop_maintenance(facade)

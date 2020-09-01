@@ -16,12 +16,8 @@ def on_startup(facade):
     time_of_day = get_time_of_day()
     user = getpass.getuser()
     number_of_overdue_items = len(facade.get_overdue_items())
-    welcome_statement = (
-        f"Good {time_of_day} {user}. You have {number_of_overdue_items} overdue items."
-    )
-    print("\n")
+    welcome_statement = f"\nGood {time_of_day} {user}. You have {number_of_overdue_items} overdue items.\n"
     print(welcome_statement)
-    print("\n")
 
 
 if __name__ == "__main__":

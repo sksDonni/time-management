@@ -25,3 +25,4 @@ Future features include:
 
 1. Work history analytics
 2. Enhanced database maintenance
+3. User configuration
