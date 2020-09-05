@@ -1,5 +1,4 @@
-from datetime import datetime
-from datetime import timedelta
+import datetime
 
 string_format_time = "%Y-%m-%d %H:%M:%S"
 
@@ -21,7 +20,7 @@ __times_of_day = {
 
 
 def get_date_time():
-    return datetime.now()
+    return datetime.datetime.now()
 
 
 def get_date_time_as_string():
@@ -29,7 +28,7 @@ def get_date_time_as_string():
 
 
 def get_date_time_from_string(date_time_str):
-    return datetime.strptime(date_time_str, string_format_time)
+    return datetime.datetime.strptime(date_time_str, string_format_time)
 
 
 def get_time_of_day(now=get_date_time()):
@@ -47,17 +46,19 @@ def get_day_of_week(date_time):
 
 def is_previous_friday(date_time_string, today=get_date_time()):
     date_time = get_date_time_from_string(date_time_string)
-    pre_friday = today - timedelta(days=3)
+    pre_friday = today - datetime.timedelta(days=3)
     return date_time.date() == pre_friday.date()
 
 
 def is_yesterday(date_time_string, today=get_date_time()):
     date_time = get_date_time_from_string(date_time_string)
-    yesterday = today - timedelta(days=1)
+    yesterday = today - datetime.timedelta(days=1)
     return date_time.date() == yesterday.date()
 
 
 def is_overdue(date_time_string, completion_goal):
     date_time = get_date_time_from_string(date_time_string)
     completion_goal = float(completion_goal)
-    return (date_time + timedelta(days=completion_goal)) < datetime.now()
+    return (
+        date_time + datetime.timedelta(days=completion_goal)
+    ) < datetime.datetime.now()

@@ -3,6 +3,9 @@ import kronos
 
 
 class DatabaseFacade:
+    """WARNING. This class is deprecated in favor of more generic DDL and DML classes
+    """
+
     rows_in_table = 0
     table_name = "time_management"
     schema = {

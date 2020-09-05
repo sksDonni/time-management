@@ -1,8 +1,8 @@
-from os import system, name
-from interface_display import InterfaceDisplay
+import os
+import interface_display
 
 menu_cache = []
-display = InterfaceDisplay()
+display = interface_display.InterfaceDisplay()
 
 
 def parse_ascii_banner(file):
@@ -19,10 +19,10 @@ def print_ascii_banner(lines):
 
 
 def clear_screen():
-    if name == "nt":
-        _ = system("cls")
+    if os.name == "nt":
+        _ = os.system("cls")
     else:
-        _ = system("clear")
+        _ = os.system("clear")
 
 
 def quit_program(facade):

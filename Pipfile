@@ -12,6 +12,8 @@ pre-commit = "*"
 setuptools = "*"
 wheel = "*"
 coverage = "*"
+deprectated = "*"
+deprecated = "*"
 
 [requires]
 python_version = "3.8"

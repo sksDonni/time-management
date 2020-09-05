@@ -1,9 +1,9 @@
-from facade_formatter import FacadeFormatter
+import facade_formatter
 
 
 class InterfaceDisplay:
     def __init__(self):
-        self.formatter = FacadeFormatter()
+        self.formatter = facade_formatter.FacadeFormatter()
 
     def format_rows(self, rows):
         formatted_rows = []

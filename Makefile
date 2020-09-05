@@ -23,8 +23,8 @@ clean:
 test:
 	python -m unittest discover time_management "*_test.py"
 
-.PHONY: coverage
-coverage:
+.PHONY: cover
+cover:
 	coverage run -m --source=./time_management/ unittest discover time_management "*_test.py"
 	coverage report
 	coverage html

@@ -27,6 +27,7 @@
 
 # Coding conventions
   * Standards: [PEP8](https://www.python.org/dev/peps/pep-0008/)
+  * Imports: absolute
   * Indentation: 4 spaces
   * Encoding: UTF-8
   * Formatting: [Black](https://black.readthedocs.io/en/stable/)

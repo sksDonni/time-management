@@ -1,10 +1,10 @@
 import unittest
-from facade import DatabaseFacade
+import facade
 
 
 class FacadeTest(unittest.TestCase):
     def setUp(self) -> None:
-        self._database = DatabaseFacade()
+        self._database = facade.DatabaseFacade()
 
     def tearDown(self) -> None:
         self._database.disconnect()
