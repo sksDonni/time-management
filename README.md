@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/ancbro/time-management.svg?branch=master)](https://travis-ci.com/ancbro/time-management)
                                           
     _|      _|    _|_|    _|_|_|    _|_|_|_|  
     _|_|  _|_|  _|    _|  _|    _|  _|        
