@@ -1,17 +1,13 @@
-from interface_common import (
-    parse_ascii_banner,
-    print_ascii_banner,
-    quit_program,
-    clear_screen,
-    to_previous_menu,
-    display,  # InterfaceDisplay instance to format given data from facade
-)
+import interface_common
+import interface_display
 import os
+
+display = interface_display.InterfaceDisplay()
 
 
 def prompt_time_management():
     banner = os.path.join(os.path.dirname(__file__), "banners/tm.txt")
-    print_ascii_banner(parse_ascii_banner(banner))
+    interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
     return input(
         """0: Return to MODE
 1: Make a note
@@ -33,7 +29,7 @@ def run_menu_loop_tm(facade):
 
 def map_choice_to_function(choice, facade):
     if choice == "0":
-        to_previous_menu(facade)
+        interface_common.to_previous_menu(facade)
     elif choice == "1":
         make_a_note(facade)
     elif choice == "2":
@@ -47,38 +43,38 @@ def map_choice_to_function(choice, facade):
     elif choice == "6":
         print_scrum_notes(facade)
     elif choice == "7":
-        quit_program(facade)
+        interface_common.quit_program(facade)
     else:
         print("Choice not recognized.")
 
 
 def make_a_note(facade):
-    clear_screen()
+    interface_common.clear_screen()
     print("0 to cancel\n")
     note = input("Make a note: ")
     if note == "0":
-        clear_screen()
+        interface_common.clear_screen()
         run_menu_loop_tm(facade)
     else:
         facade.update_table_with_note(note)
-        clear_screen()
+        interface_common.clear_screen()
 
 
 def set_a_task(facade):
-    clear_screen()
+    interface_common.clear_screen()
     print("0 to cancel\n")
     note = input("Set a task: ")
     if note == "0":
-        clear_screen()
-        run_menu_loop_tm(facade)
+        interface_common.clear_screen()
+        interface_common.run_menu_loop_tm(facade)
     else:
         days_until_completion = input("Set number of days to complete: ")
         facade.update_table_with_task(note, days_until_completion)
-        clear_screen()
+        interface_common.clear_screen()
 
 
 def print_contents(facade):
-    clear_screen()
+    interface_common.clear_screen()
     table_rows = display.display_all_items(facade)
     if len(table_rows) == 0:
         return
@@ -89,7 +85,7 @@ def print_contents(facade):
 
 
 def complete_task(facade, first_run=True):
-    clear_screen()
+    interface_common.clear_screen()
     print("0 to cancel\n")
     if first_run:
         task_input = input("Enter space delimited task IDs for completion: ")
@@ -99,12 +95,12 @@ def complete_task(facade, first_run=True):
     task_ids = split_tasks(task_input)
 
     if task_ids[0] == "0":
-        clear_screen()
-        run_menu_loop_tm(facade)
+        interface_common.clear_screen()
+        interface_common.run_menu_loop_tm(facade)
     elif are_valid_tasks(task_ids, facade.get_all_ids()):
         for task_id in task_ids:
             facade.update_completion(task_id)
-        clear_screen()
+        interface_common.clear_screen()
     else:
         complete_task(facade, False)
 
@@ -129,16 +125,16 @@ def split_tasks(input_tasks):
 
 
 def print_overdue_tasks(facade):
-    clear_screen()
+    interface_common.clear_screen()
     table_rows = display.display_overdue_items(facade)
     for row in table_rows:
         print(row)
 
 
 def print_scrum_notes(facade):
-    clear_screen()
+    interface_common.clear_screen()
     banner = os.path.join(os.path.dirname(__file__), "banners/scrum.txt")
-    print_ascii_banner(parse_ascii_banner(banner))
+    interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
     table_rows = display.display_last_days_items(facade)
     for row in table_rows:
         print(row)

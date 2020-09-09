@@ -1,53 +1,49 @@
-import sqlite3
 import json
-import logging
-
-
-def parse_json(path):
-    with open(path) as file:
-        data = json.load(file)
-    return data
-
-
-class Database:
-    def __init__(self, db_name=":memory:"):
-        try:
-            self.__db_name = db_name
-            self.__connection = sqlite3.connect(self.__db_name)
-            self.__cursor = self.__connection.cursor()
-        except ValueError:
-            logging.error("Unable to initialize database!")
-
-    def get_db_name(self):
-        return self.__db_name
-
-    def get_connection(self):
-        return self.__connection
-
-    def get_cursor(self):
-        return self.__cursor
-
-    def disconnect(self):
-        self.get_connection().close
+import os
 
 
 class DataDefinitionLanguage:
-    def __init__(self, database):
-        self.database = database
-        self.connection = database.get_connection()
-        self.cursor = database.get_cursor()
+    __schemas_path = "time_management/table_schemas/"
 
-    def strip_brackets_and_colons(self, query):
+    def __init__(self, database):
+        self.__database = database
+        self.__connection = database.get_connection()
+        self.__cursor = database.get_cursor()
+
+    def __strip_brackets_and_colons(self, query):
         return query.replace("{", "").replace("}", "").replace(":", "")
 
-    def create_sql(self, table, schema):
+    def __create_sql(self, table, schema):
         query = f"CREATE TABLE IF NOT EXISTS {table} ({schema})"
-        return self.strip_brackets_and_colons(query)
+        return self.__strip_brackets_and_colons(query)
 
     def create_table(self, table, schema):
-        self.cursor.execute(self.create_sql(table, schema))
-        self.connection.commit()
+        self.__cursor.execute(self.__create_sql(table, schema))
+        self.__connection.commit()
 
     def drop_table(self, table):
         query = f"DROP TABLE {table}"
-        self.cursor.execute(query)
+        self.__cursor.execute(query)
+
+    def create_all_tables(self):
+        schema_files = DataDefinitionLanguage.list_schemas()
+        for schema in schema_files:
+            schema_contents = DataDefinitionLanguage.parse_json(
+                DataDefinitionLanguage.__schemas_path + schema
+            )
+            table_name = schema.replace(".json", "")
+            self.create_table(table_name, schema_contents)
+
+    @staticmethod
+    def parse_json(path):
+        with open(path) as file:
+            data = json.load(file)
+        return data
+
+    @staticmethod
+    def list_schemas():
+        return [
+            f
+            for f in os.listdir(DataDefinitionLanguage.__schemas_path)
+            if os.path.isfile(os.path.join(DataDefinitionLanguage.__schemas_path, f))
+        ]

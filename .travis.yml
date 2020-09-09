@@ -1,0 +1,7 @@
+language: python
+python:
+  - '3.8'
+install:
+  - 'pip install pipenv'
+  - 'pipenv sync'
+script: 'python -m unittest discover time_management *_test.py'
