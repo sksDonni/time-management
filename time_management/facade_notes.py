@@ -6,12 +6,14 @@ import facade_abc
 
 
 class NotesFacade(facade_abc.AbcFacade):
+    __rows_in_table = 0
+
     def __init__(self, database):
         self.db = database
         self.ddl = ddl.DataDefinitionLanguage(database)
         self.dml = dml.DataManipulationLanguage(database)
         self.table_name = "notes"
-        self.rows_in_table = 0
+        NotesFacade.__rows_in_table = self.count_rows()
         try:
             self.schema = ddl.DataDefinitionLanguage.parse_json(
                 "time_management/table_schemas/" + self.table_name + ".json"
@@ -31,12 +33,35 @@ class NotesFacade(facade_abc.AbcFacade):
     def disconnect(self):
         self.db.disconnect()
 
-    def update_table_with_note(self, note):
-        self.rows_in_table = self.rows_in_table + 1
+    def get_last_workday(self):
+        rows = []
+        for row in self.get_rows():
+            if kronos.get_day_of_week(kronos.get_date_time()) == "Monday":
+                if kronos.is_previous_friday(row[3]):
+                    rows.append(row)
+            if kronos.is_yesterday(row[3]):
+                rows.append(row)
+        return rows
+
+    def insert_note(self, note):
+        NotesFacade.increment_row_count()
         self.db.get_connection().execute(
             "INSERT INTO {} ({}, {}, {}, {}) VALUES (?, ?, ?, ?)".format(
                 self.table_name, *self.schema
             ),
-            (self.rows_in_table, "NOTE", kronos.get_date_time_as_string(), note),
+            (
+                NotesFacade.__rows_in_table,
+                "NOTE",
+                note,
+                kronos.get_date_time_as_string(),
+            ),
         )
         self.db.get_connection().commit()
+
+    @classmethod
+    def reset_row_count(cls):
+        NotesFacade.__rows_in_table = 0
+
+    @classmethod
+    def increment_row_count(cls):
+        NotesFacade.__rows_in_table = NotesFacade.__rows_in_table + 1

@@ -1,140 +1,170 @@
 import interface_common
-import interface_display
 import os
-
-display = interface_display.InterfaceDisplay()
-
-
-def prompt_time_management():
-    banner = os.path.join(os.path.dirname(__file__), "banners/tm.txt")
-    interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
-    return input(
-        """0: Return to MODE
-1: Make a note
-2: Set a task
-3: Print notes and tasks
-4: Complete tasks
-5: Print overdue tasks
-6: Print SCRUM notes
-7: Quit
-"""
-    )
+import textwrap
+import functools
 
 
-def run_menu_loop_tm(facade):
-    while True:
-        choice = prompt_time_management()
-        map_choice_to_function(choice, facade)
+class InterfaceTM:
+    __menu = """
+        0: Return to MODE
+        1: Make a note
+        2: Set a task
+        3: Print notes
+        4: Print tasks
+        5: Complete tasks
+        6: Print overdue
+        7: Print SCRUM notes
+        8: Quit
+        """
 
+    def __init__(self, notes_facade, tasks_facade):
+        self.notes_facade = notes_facade
+        self.tasks_facade = tasks_facade
+        self.__menu_map = {
+            "0": interface_common.to_previous_menu,
+            "1": self.__make_a_note,
+            "2": self.__set_a_task,
+            "3": self.__print_notes,
+            "4": self.__print_tasks,
+            "5": self.__complete_task,
+            "6": self.__print_overdue,
+            "7": self.__print_scrum_notes,
+            "8": functools.partial(interface_common.quit_program, self.notes_facade),
+        }
 
-def map_choice_to_function(choice, facade):
-    if choice == "0":
-        interface_common.to_previous_menu(facade)
-    elif choice == "1":
-        make_a_note(facade)
-    elif choice == "2":
-        set_a_task(facade)
-    elif choice == "3":
-        print_contents(facade)
-    elif choice == "4":
-        complete_task(facade)
-    elif choice == "5":
-        print_overdue_tasks(facade)
-    elif choice == "6":
-        print_scrum_notes(facade)
-    elif choice == "7":
-        interface_common.quit_program(facade)
-    else:
-        print("Choice not recognized.")
+    def run_menu_loop_tm(self):
+        while True:
+            choice = self.__prompt_time_management()
+            self.__map_choice_to_function(choice)
 
+    def __prompt_time_management(self):
+        banner = os.path.join(os.path.dirname(__file__), "banners/tm.txt")
+        interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
+        return input(textwrap.dedent(InterfaceTM.__menu))
 
-def make_a_note(facade):
-    interface_common.clear_screen()
-    print("0 to cancel\n")
-    note = input("Make a note: ")
-    if note == "0":
-        interface_common.clear_screen()
-        run_menu_loop_tm(facade)
-    else:
-        facade.update_table_with_note(note)
-        interface_common.clear_screen()
-
-
-def set_a_task(facade):
-    interface_common.clear_screen()
-    print("0 to cancel\n")
-    note = input("Set a task: ")
-    if note == "0":
-        interface_common.clear_screen()
-        interface_common.run_menu_loop_tm(facade)
-    else:
-        days_until_completion = input("Set number of days to complete: ")
-        facade.update_table_with_task(note, days_until_completion)
-        interface_common.clear_screen()
-
-
-def print_contents(facade):
-    interface_common.clear_screen()
-    table_rows = display.display_all_items(facade)
-    if len(table_rows) == 0:
-        return
-    else:
-        for row in table_rows:
-            print(row)
-        print(2 * "\n")
-
-
-def complete_task(facade, first_run=True):
-    interface_common.clear_screen()
-    print("0 to cancel\n")
-    if first_run:
-        task_input = input("Enter space delimited task IDs for completion: ")
-    else:
-        task_input = input("One or more task IDs not found. Please try again: ")
-
-    task_ids = split_tasks(task_input)
-
-    if task_ids[0] == "0":
-        interface_common.clear_screen()
-        interface_common.run_menu_loop_tm(facade)
-    elif are_valid_tasks(task_ids, facade.get_all_ids()):
-        for task_id in task_ids:
-            facade.update_completion(task_id)
-        interface_common.clear_screen()
-    else:
-        complete_task(facade, False)
-
-
-# TODO :: CHECK FOR ALREADY COMPLETE TASKS USING DEFINED TASK SCHEMA
-def are_valid_tasks(tasks_to_complete, valid_task_ids):
-    valid_tasks = []
-    invalid_tasks = []
-    for task_id in tasks_to_complete:
-        if task_id.isdigit() and (int(task_id) in valid_task_ids):
-            valid_tasks.append(task_id)
+    def __map_choice_to_function(self, choice):
+        action = self.__menu_map.get(choice)
+        if action is not None:
+            action()
         else:
-            invalid_tasks.append(task_id)
-    if invalid_tasks:
-        return False
-    else:
-        return True
+            print("Choice not recognized.")
 
+    def __make_a_note(self):
+        interface_common.clear_screen()
+        print("0 to cancel\n")
+        note = input("Make a note: ")
+        if note == "0":
+            interface_common.clear_screen()
+            self.run_menu_loop_tm()
+        else:
+            self.notes_facade.insert_note(note)
+            interface_common.clear_screen()
 
-def split_tasks(input_tasks):
-    return input_tasks.split()
+    def __set_a_task(self):
+        interface_common.clear_screen()
+        print("0 to cancel\n")
+        note = input("Set a task: ")
+        if note == "0":
+            interface_common.clear_screen()
+            interface_common.run_menu_loop_tm()
+        else:
+            days_to_complete = input("Set number of days to complete: ")
+            self.tasks_facade.insert_task(note, days_to_complete)
+            interface_common.clear_screen()
 
+    def __print_notes(self):
+        interface_common.clear_screen()
+        note_rows = self.notes_facade.get_rows()
+        formatted_notes = self.__format_rows(note_rows, self.format_note)
+        InterfaceTM.__print_entries(formatted_notes)
 
-def print_overdue_tasks(facade):
-    interface_common.clear_screen()
-    table_rows = display.display_overdue_items(facade)
-    for row in table_rows:
-        print(row)
+    def __print_tasks(self):
+        interface_common.clear_screen()
+        task_rows = self.tasks_facade.get_rows()
+        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        InterfaceTM.__print_entries(formatted_tasks)
 
+    @staticmethod
+    def __print_entries(entries):
+        if entries:
+            for entry in entries:
+                print(entry)
+            print(2 * "\n")
 
-def print_scrum_notes(facade):
-    interface_common.clear_screen()
-    banner = os.path.join(os.path.dirname(__file__), "banners/scrum.txt")
-    interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
-    table_rows = display.display_last_days_items(facade)
-    for row in table_rows:
-        print(row)
+    def __complete_task(self, first_run=True):
+        interface_common.clear_screen()
+        print("0 to cancel\n")
+        if first_run:
+            task_input = input("Enter space delimited task IDs for completion: ")
+        else:
+            task_input = input("One or more task IDs not found. Please try again: ")
+
+        task_ids = self.__split_tasks(task_input)
+
+        if task_ids[0] == "0":
+            interface_common.clear_screen()
+            interface_common.run_menu_loop_tm()
+        elif InterfaceTM.are_valid_tasks(task_ids, self.tasks_facade.get_ids()):
+            for task_id in task_ids:
+                self.tasks_facade.complete_task(task_id)
+            interface_common.clear_screen()
+        else:
+            self.__complete_task(False)
+
+    @staticmethod
+    def are_valid_tasks(tasks_to_complete, valid_task_ids):
+        valid_tasks = []
+        invalid_tasks = []
+        for task_id in tasks_to_complete:
+            if task_id.isdigit() and (int(task_id) in valid_task_ids):
+                valid_tasks.append(task_id)
+            else:
+                invalid_tasks.append(task_id)
+        if invalid_tasks:
+            return False
+        else:
+            return True
+
+    def __split_tasks(self, input_tasks):
+        return input_tasks.split()
+
+    def __print_overdue(self):
+        interface_common.clear_screen()
+        task_rows = self.tasks_facade.get_overdue_tasks()
+        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        for task in formatted_tasks:
+            print(task)
+
+    def __print_scrum_notes(self):
+        interface_common.clear_screen()
+        banner = os.path.join(os.path.dirname(__file__), "banners/scrum.txt")
+        interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
+        note_rows = self.notes_facade.get_last_workday()
+        formatted_notes = self.__format_rows(note_rows, self.format_note)
+        task_rows = self.tasks_facade.get_last_workday()
+        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        all_items = formatted_notes + list("\n") + formatted_tasks
+        InterfaceTM.__print_entries(all_items)
+
+    def __format_rows(self, rows, formatter):
+        formatted_rows = []
+        if rows:
+            for row in rows:
+                formatted_rows.append(formatter(row))
+        return formatted_rows
+
+    def format_task(self, row):
+        item = f"Item: {row[0]:<4}"
+        event_type = f"{row[1]}"
+        task = f"{row[2]:<100}"
+        date_set = f"Date: {row[3]}"
+        days_to_complete = f"Days to complete: {row[5]}"
+        is_complete = f"Completed: {row[6]}"
+        return f"{item} {date_set} {event_type}: {task} [{days_to_complete}, {is_complete}]"
+
+    def format_note(self, row):
+        item = f"Item: {row[0]:<4}"
+        event_type = f"{row[1]}"
+        note = f"{row[2]}"
+        date_set = f"Date: {row[3]}"
+        return f"{item} {date_set}  {event_type}: {note}"

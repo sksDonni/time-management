@@ -1,8 +1,6 @@
 import os
-import interface_display
 
 menu_cache = []
-display = interface_display.InterfaceDisplay()
 
 
 def parse_ascii_banner(file):
@@ -37,6 +35,18 @@ def initialize_menu(menu_loop, is_startup=False):
     menu_cache.append(menu_loop)
 
 
-def to_previous_menu(facade):
+def to_previous_menu():
     clear_screen()
-    menu_cache[-2](facade)
+    menu_cache[-2]()
+
+
+def map_choice_to_function(menu_map, choice, facade):
+    action = menu_map.get(choice)
+    if action:
+        action(facade)
+    else:
+        print("Choice not recognized.")
+
+
+def print_cancel_option():
+    print("0 to cancel\n")

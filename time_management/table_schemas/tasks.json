@@ -1,10 +1,10 @@
 {
     "id": "int",
-    "type": "text",
-    "date_set": "text",
+    "event_type": "text",
     "task": "text",
-    "complete_in_days": "text",
+    "date_set": "text",
     "date_complete": "text",
+    "days_to_complete": "text",
     "is_complete": "text",
     "is_void": "text"
 }

@@ -6,12 +6,14 @@ import facade_abc
 
 
 class TasksFacade(facade_abc.AbcFacade):
+    __rows_in_table = 0
+
     def __init__(self, database):
         self.db = database
         self.ddl = ddl.DataDefinitionLanguage(database)
         self.dml = dml.DataManipulationLanguage(database)
         self.table_name = "tasks"
-        self.rows_in_table = 0
+        TasksFacade.__rows_in_table = self.count_rows()
         try:
             self.schema = ddl.DataDefinitionLanguage.parse_json(
                 "time_management/table_schemas/" + self.table_name + ".json"
@@ -37,6 +39,16 @@ class TasksFacade(facade_abc.AbcFacade):
             ids.append(row[0])
         return ids
 
+    def get_last_workday(self):
+        rows = []
+        for row in self.get_rows():
+            if kronos.get_day_of_week(kronos.get_date_time()) == "Monday":
+                if kronos.is_previous_friday(row[3]):
+                    rows.append(row)
+            if kronos.is_yesterday(row[3]):
+                rows.append(row)
+        return rows
+
     def complete_task(self, row_id):
         now = kronos.get_date_time_as_string()
         self.db.get_cursor().execute(
@@ -47,29 +59,37 @@ class TasksFacade(facade_abc.AbcFacade):
     def get_overdue_tasks(self):
         rows = []
         for row in self.get_rows():
-            date_set = row[2]
-            complete_in_days = row[4]
+            date_set = row[3]
+            days_to_complete = row[5]
             is_complete = row[6]
             if is_complete == "false":
-                if kronos.is_overdue(date_set, complete_in_days):
+                if kronos.is_overdue(date_set, days_to_complete):
                     rows.append(row)
         return rows
 
-    def update_table_with_task(self, task, completion_goal):
-        self.rows_in_table = self.rows_in_table + 1
+    def insert_task(self, task, days_to_complete):
+        TasksFacade.increment_row_count()
         self.db.get_cursor().execute(
             "INSERT INTO {} ({}, {}, {}, {}, {}, {}, {}, {}) VALUES (?, ?, ?, ?, ?, ?, ?, ?)".format(
                 self.table_name, *self.schema
             ),
             (
-                self.rows_in_table,
+                TasksFacade.__rows_in_table,
                 "TASK",
-                kronos.get_date_time_as_string(),
                 task,
-                completion_goal,
-                "NULL",
+                kronos.get_date_time_as_string(),
+                "TBD",
+                days_to_complete,
                 "false",
                 "false",
             ),
         )
         self.db.get_connection().commit()
+
+    @classmethod
+    def reset_row_count(cls):
+        TasksFacade.__rows_in_table = 0
+
+    @classmethod
+    def increment_row_count(cls):
+        TasksFacade.__rows_in_table = TasksFacade.__rows_in_table + 1

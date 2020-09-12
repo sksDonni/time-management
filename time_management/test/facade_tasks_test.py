@@ -8,7 +8,6 @@ import dml
 class NotesFacadeTest(unittest.TestCase):
     def setUp(self) -> None:
         self.db = sqlitedb.SQLiteDatabase()
-        self.notes_facade = facade_tasks.TasksFacade(self.db)
         self.data_def = ddl.DataDefinitionLanguage(self.db)
         self.data_man = dml.DataManipulationLanguage(self.db)
         self.data_def.create_table(
@@ -17,8 +16,9 @@ class NotesFacadeTest(unittest.TestCase):
                 "time_management/table_schemas/tasks.json"
             ),
         )
-        self.notes_facade.update_table_with_task("DO THIS", 1)
-        self.notes_facade.update_table_with_task("DO THAT", 2)
+        self.notes_facade = facade_tasks.TasksFacade(self.db)
+        self.notes_facade.insert_task("DO THIS", 1)
+        self.notes_facade.insert_task("DO THAT", 2)
 
     def tearDown(self) -> None:
         self.db.disconnect()
@@ -32,8 +32,8 @@ class NotesFacadeTest(unittest.TestCase):
     def test_get_rows(self):
         rows = self.notes_facade.get_rows()
         row_index = 0
-        note_index = 3
-        self.assertEqual("DO THIS", rows[row_index][note_index])
+        task_index = 2
+        self.assertEqual("DO THIS", rows[row_index][task_index])
 
     def test_get_overdue_tasks(self):
         self.assertEqual(0, len(self.notes_facade.get_overdue_tasks()))
