@@ -1,4 +1,5 @@
 import interface_common
+import format_decorators
 import os
 import textwrap
 import functools
@@ -75,13 +76,13 @@ class InterfaceTM:
     def __print_notes(self):
         interface_common.clear_screen()
         note_rows = self.notes_facade.get_rows()
-        formatted_notes = self.__format_rows(note_rows, self.format_note)
+        formatted_notes = format_decorators.format_note(note_rows)
         InterfaceTM.__print_entries(formatted_notes)
 
     def __print_tasks(self):
         interface_common.clear_screen()
         task_rows = self.tasks_facade.get_rows()
-        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        formatted_tasks = format_decorators.format_task(task_rows)
         InterfaceTM.__print_entries(formatted_tasks)
 
     @staticmethod
@@ -131,7 +132,7 @@ class InterfaceTM:
     def __print_overdue(self):
         interface_common.clear_screen()
         task_rows = self.tasks_facade.get_overdue_tasks()
-        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        formatted_tasks = format_decorators.format_task(task_rows)
         for task in formatted_tasks:
             print(task)
 
@@ -140,31 +141,8 @@ class InterfaceTM:
         banner = os.path.join(os.path.dirname(__file__), "banners/scrum.txt")
         interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
         note_rows = self.notes_facade.get_last_workday()
-        formatted_notes = self.__format_rows(note_rows, self.format_note)
+        formatted_notes = format_decorators.format_note(note_rows)
         task_rows = self.tasks_facade.get_last_workday()
-        formatted_tasks = self.__format_rows(task_rows, self.format_task)
+        formatted_tasks = format_decorators.format_task(task_rows)
         all_items = formatted_notes + list("\n") + formatted_tasks
         InterfaceTM.__print_entries(all_items)
-
-    def __format_rows(self, rows, formatter):
-        formatted_rows = []
-        if rows:
-            for row in rows:
-                formatted_rows.append(formatter(row))
-        return formatted_rows
-
-    def format_task(self, row):
-        item = f"Item: {row[0]:<4}"
-        event_type = f"{row[1]}"
-        task = f"{row[2]:<100}"
-        date_set = f"Date: {row[3]}"
-        days_to_complete = f"Days to complete: {row[5]}"
-        is_complete = f"Completed: {row[6]:<5}"
-        return f"{item} {date_set} {event_type}: {task} [{days_to_complete}, {is_complete}]"
-
-    def format_note(self, row):
-        item = f"Item: {row[0]:<4}"
-        event_type = f"{row[1]}"
-        note = f"{row[2]}"
-        date_set = f"Date: {row[3]}"
-        return f"{item} {date_set} {event_type}: {note}"
