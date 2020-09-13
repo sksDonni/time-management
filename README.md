@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.com/ancbro/time-management.svg?branch=master)](https://travis-ci.com/ancbro/time-management)
+[![](https://travis-ci.com/ancbro/time-management.svg?branch=master)](https://travis-ci.com/ancbro/time-management)
+![](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)
+![](https://img.shields.io/badge/python-3.8-blue.svg)
 
                                           
     _|      _|    _|_|    _|_|_|    _|_|_|_|  
