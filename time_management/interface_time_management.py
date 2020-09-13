@@ -159,7 +159,7 @@ class InterfaceTM:
         task = f"{row[2]:<100}"
         date_set = f"Date: {row[3]}"
         days_to_complete = f"Days to complete: {row[5]}"
-        is_complete = f"Completed: {row[6]}"
+        is_complete = f"Completed: {row[6]:<5}"
         return f"{item} {date_set} {event_type}: {task} [{days_to_complete}, {is_complete}]"
 
     def format_note(self, row):
@@ -167,4 +167,4 @@ class InterfaceTM:
         event_type = f"{row[1]}"
         note = f"{row[2]}"
         date_set = f"Date: {row[3]}"
-        return f"{item} {date_set}  {event_type}: {note}"
+        return f"{item} {date_set} {event_type}: {note}"

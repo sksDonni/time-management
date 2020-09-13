@@ -3,6 +3,7 @@ import ddl
 import dml
 import kronos
 import facade_abc
+import os
 
 
 class TasksFacade(facade_abc.AbcFacade):
@@ -16,7 +17,10 @@ class TasksFacade(facade_abc.AbcFacade):
         TasksFacade.__rows_in_table = self.count_rows()
         try:
             self.schema = ddl.DataDefinitionLanguage.parse_json(
-                "time_management/table_schemas/" + self.table_name + ".json"
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "table_schemas/" + self.table_name + ".json",
+                )
             )
         except ValueError:
             logging.error("Unable to parse schema")

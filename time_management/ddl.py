@@ -3,7 +3,7 @@ import os
 
 
 class DataDefinitionLanguage:
-    __schemas_path = "time_management/table_schemas/"
+    __schemas_path = os.path.join(os.path.dirname(__file__), "table_schemas/")
 
     def __init__(self, database):
         self.__database = database
