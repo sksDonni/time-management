@@ -10,6 +10,6 @@ class FormatDecoratorTest(unittest.TestCase):
         ]
         formatted_rows = format_decorators.format_note(rows)
         self.assertEqual(
-            "Item: 1    Date: 2020-09-11 14:57:22 NOTE: THIS IS A NOTE",
+            "NOTE: 1    [Date set: 2020-09-11 14:57:22] THIS IS A NOTE",
             formatted_rows[0],
         )

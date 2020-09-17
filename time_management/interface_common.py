@@ -40,11 +40,12 @@ def to_previous_menu():
     menu_cache[-2]()
 
 
-def map_choice_to_function(menu_map, choice, facade):
+def map_choice_to_function(menu_map, choice):
     action = menu_map.get(choice)
     if action:
-        action(facade)
+        action()
     else:
+        clear_screen()
         print("Choice not recognized.")
 
 

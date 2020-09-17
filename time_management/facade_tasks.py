@@ -82,7 +82,7 @@ class TasksFacade(facade_abc.AbcFacade):
                 "TASK",
                 task,
                 kronos.get_date_time_as_string(),
-                "TBD",
+                "TBD****************",
                 days_to_complete,
                 "false",
                 "false",

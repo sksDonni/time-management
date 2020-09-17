@@ -11,19 +11,19 @@ def format_decorator(format_func, *args):
 
 @format_decorator
 def format_task(row):
-    item = f"Item: {row[0]:<4}"
-    event_type = f"{row[1]}"
-    task = f"{row[2]:<100}"
-    date_set = f"Date: {row[3]}"
+    item = f"{row[1]}: {row[0]:<4}"
+    task = f"{row[2]}"
+    date_set = f"Date set: {row[3]}"
     days_to_complete = f"Days to complete: {row[5]}"
     is_complete = f"Completed: {row[6]:<5}"
-    return f"{item} {date_set} {event_type}: {task} [{days_to_complete}, {is_complete}]"
+    date_complete = f"Date complete: {row[4]}"
+    is_void = f"Void: {row[7]:<5}"
+    return f"{item} [{date_set}, {days_to_complete}, {is_complete}, {date_complete}, {is_void}] {task}"
 
 
 @format_decorator
 def format_note(row):
-    item = f"Item: {row[0]:<4}"
-    event_type = f"{row[1]}"
+    item = f"{row[1]}: {row[0]:<4}"
     note = f"{row[2]}"
-    date_set = f"Date: {row[3]}"
-    return f"{item} {date_set} {event_type}: {note}"
+    date_set = f"Date set: {row[3]}"
+    return f"{item} [{date_set}] {note}"

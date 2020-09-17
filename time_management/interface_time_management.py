@@ -36,19 +36,12 @@ class InterfaceTM:
     def run_menu_loop_tm(self):
         while True:
             choice = self.__prompt_time_management()
-            self.__map_choice_to_function(choice)
+            interface_common.map_choice_to_function(self.__menu_map, choice)
 
     def __prompt_time_management(self):
         banner = os.path.join(os.path.dirname(__file__), "banners/tm.txt")
         interface_common.print_ascii_banner(interface_common.parse_ascii_banner(banner))
         return input(textwrap.dedent(InterfaceTM.__menu))
-
-    def __map_choice_to_function(self, choice):
-        action = self.__menu_map.get(choice)
-        if action is not None:
-            action()
-        else:
-            print("Choice not recognized.")
 
     def __make_a_note(self):
         interface_common.clear_screen()
