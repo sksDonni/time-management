@@ -1,6 +1,6 @@
-# How to contribute
+# How to Contribute
 
-  Contributions may include opening any issue or raising a pull request to resolve an issue. Please ask to be assigned to an issue if you are interested in contributing.
+  Contributions may include opening any issue, or raising a pull request to resolve an issue. To raise a pull request, please first fork the repository, and then ask to be assigned to an issue.
 
 # Using Make
 
@@ -18,10 +18,11 @@
 
 # Submitting changes
 
-  1. Check out master
-  2. Pull from origin master
-  3. Branch from master
-  4. Raise a PR back into master
+  1. Fork the repository
+  2. Check out master
+  3. Pull from origin master
+  4. Branch from master
+  5. Raise a PR back into master
 
   Please raise one PR per issue if possible. 
 
@@ -42,4 +43,5 @@
     * Packages: lower_case_with_underscores (snake_Case)
     * Classes: CapWords convention (PascalCase)
   
-Andrew Brown (TM)
+Andrew Brown and GitHub Contributors (TM) 
+
