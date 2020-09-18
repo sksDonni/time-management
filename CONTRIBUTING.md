@@ -1,4 +1,4 @@
-# How to contribute
+# How to Contribute
 
   Contributions may include opening any issue or raising a pull request to resolve an issue. Please ask to be assigned to an issue if you are interested in contributing.
 
@@ -16,7 +16,7 @@
 
   * Tests should conform to [unittest](https://docs.python.org/3/library/unittest.html) conventions
 
-# Submitting changes
+# Submitting Changes
 
   1. Check out master
   2. Pull from origin master
@@ -25,7 +25,7 @@
 
   Please raise one PR per issue if possible. 
 
-# Coding conventions
+# Coding Conventions
   * Standards: [PEP8](https://www.python.org/dev/peps/pep-0008/)
   * Imports: absolute
   * Indentation: 4 spaces
