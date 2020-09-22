@@ -1,6 +1,7 @@
 import ddl
 import sqlitedb
 import unittest
+import os
 
 
 class DDLTest(unittest.TestCase):
@@ -23,3 +24,14 @@ class DDLTest(unittest.TestCase):
         self.assertTrue("notes.json" in schemas)
         self.assertTrue("tasks.json" in schemas)
         self.assertTrue("user_config.json" in schemas)
+
+    def test_nonJSON_invisible_in_schemas(self):
+        filepath = os.path.join(os.path.dirname(__file__), '../table_schemas/test_temp.txt')
+        with open(filepath, "a") as temp_file:
+            temp_file.write("Hello, World!")
+        schemas = ddl.DataDefinitionLanguage.list_schemas()
+        self.assertTrue("notes.json" in schemas)
+        self.assertTrue("tasks.json" in schemas)
+        self.assertTrue("user_config.json" in schemas)
+        self.assertFalse("test_temp.txt" in schemas)
+        os.remove(filepath)
