@@ -60,7 +60,7 @@ class InterfaceTM:
         note = input("Set a task: ")
         if note == "0":
             interface_common.clear_screen()
-            interface_common.run_menu_loop_tm()
+            self.run_menu_loop_tm()
         else:
             days_to_complete = input("Set number of days to complete: ")
             self.tasks_facade.insert_task(note, days_to_complete)
@@ -97,7 +97,7 @@ class InterfaceTM:
 
         if task_ids[0] == "0":
             interface_common.clear_screen()
-            interface_common.run_menu_loop_tm()
+            self.run_menu_loop_tm()
         elif InterfaceTM.are_valid_tasks(task_ids, self.tasks_facade.get_ids()):
             for task_id in task_ids:
                 self.tasks_facade.complete_task(task_id)
