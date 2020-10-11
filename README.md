@@ -1,6 +1,7 @@
 [![](https://travis-ci.com/ancbro/time-management.svg?branch=master)](https://travis-ci.com/ancbro/time-management)
 ![](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)
 ![](https://img.shields.io/badge/python-3.8-blue.svg)
+[![Slack](https://img.shields.io/badge/Slack-Join-brightgreen)](https://join.slack.com/t/tm-oma8428/shared_invite/zt-iaflzlpt-VSXSI1RkOKko~CT_riBUaA)
 
                                           
     Good evening <user>. You have 1 overdue items.
