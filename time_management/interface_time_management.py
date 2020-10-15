@@ -101,6 +101,7 @@ class InterfaceTM:
         elif InterfaceTM.are_valid_tasks(task_ids, self.tasks_facade.get_ids()):
             for task_id in task_ids:
                 self.tasks_facade.complete_task(task_id)
+                self.notes_facade.insert_note("Completed Task: "+task_id)
             interface_common.clear_screen()
         else:
             self.__complete_task(False)
