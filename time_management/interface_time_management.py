@@ -3,6 +3,7 @@ import format_decorators
 import os
 import textwrap
 import functools
+import dml
 
 
 class InterfaceTM:
@@ -18,9 +19,10 @@ class InterfaceTM:
         8: Quit
         """
 
-    def __init__(self, notes_facade, tasks_facade):
+    def __init__(self, notes_facade, tasks_facade, dml):
         self.notes_facade = notes_facade
         self.tasks_facade = tasks_facade
+        self.dml = dml
         self.__menu_map = {
             "0": interface_common.to_previous_menu,
             "1": self.__make_a_note,
@@ -100,8 +102,11 @@ class InterfaceTM:
             self.run_menu_loop_tm()
         elif InterfaceTM.are_valid_tasks(task_ids, self.tasks_facade.get_ids()):
             for task_id in task_ids:
+                task = self.dml.arbitrary_select("task", "tasks", f"id = {task_id}")[0][
+                    0
+                ]
                 self.tasks_facade.complete_task(task_id)
-                self.notes_facade.insert_note("Completed Task: "+task_id)
+                self.notes_facade.insert_note("Completed Task " + task_id + ": " + task)
             interface_common.clear_screen()
         else:
             self.__complete_task(False)

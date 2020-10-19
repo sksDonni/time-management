@@ -26,7 +26,9 @@ class DDLTest(unittest.TestCase):
         self.assertTrue("user_config.json" in schemas)
 
     def test_nonJSON_invisible_in_schemas(self):
-        filepath = os.path.join(os.path.dirname(__file__), '../table_schemas/test_temp.txt')
+        filepath = os.path.join(
+            os.path.dirname(__file__), "../table_schemas/test_temp.txt"
+        )
         with open(filepath, "a") as temp_file:
             temp_file.write("Hello, World!")
         schemas = ddl.DataDefinitionLanguage.list_schemas()

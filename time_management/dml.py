@@ -14,3 +14,11 @@ class DataManipulationLanguage:
         except ValueError:
             logging.error("Unable to execute query!")
         return self.__cursor.fetchall()
+
+    def arbitrary_select(self, fields, table, conditions):
+        query = f"SELECT {fields} FROM {table} WHERE {conditions}"
+        try:
+            self.__cursor.execute(query)
+        except ValueError:
+            logging.error("Unable to execute query!")
+        return self.__cursor.fetchall()

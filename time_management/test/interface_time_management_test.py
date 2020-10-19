@@ -27,7 +27,7 @@ class TimeManagementTest(unittest.TestCase):
         self.tasks_facade.insert_task("DO THIS", 1)
         self.notes_facade.insert_note("A NOTE")
         self.interface_tm = interface_time_management.InterfaceTM(
-            self.notes_facade, self.tasks_facade
+            self.notes_facade, self.tasks_facade, self.db
         )
 
     def tearDown(self) -> None:

@@ -7,6 +7,7 @@ import facade_tasks
 import os
 import textwrap
 import ddl
+import dml
 
 
 class InterfaceMode:
@@ -22,7 +23,7 @@ class InterfaceMode:
         self.notes_facade = facade_notes.NotesFacade(db)
         self.tasks_facade = facade_tasks.TasksFacade(db)
         self.interface_tm = interface_time_management.InterfaceTM(
-            self.notes_facade, self.tasks_facade
+            self.notes_facade, self.tasks_facade, dml.DataManipulationLanguage(db)
         )
         self.interface_maint = interface_maintenance.InterfaceMaintenance(
             self.notes_facade, self.tasks_facade, self.data_def

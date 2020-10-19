@@ -42,5 +42,8 @@ class DataDefinitionLanguage:
 
     @staticmethod
     def list_schemas():
-        return [pos_json for pos_json in os.listdir(DataDefinitionLanguage.__schemas_path) if pos_json.endswith('.json')]
-        
+        return [
+            pos_json
+            for pos_json in os.listdir(DataDefinitionLanguage.__schemas_path)
+            if pos_json.endswith(".json")
+        ]
