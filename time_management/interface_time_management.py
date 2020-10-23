@@ -4,6 +4,7 @@ import os
 import textwrap
 import functools
 import dml
+import time
 
 
 class InterfaceTM:
@@ -102,11 +103,16 @@ class InterfaceTM:
             self.run_menu_loop_tm()
         elif InterfaceTM.are_valid_tasks(task_ids, self.tasks_facade.get_ids()):
             for task_id in task_ids:
-                task = self.dml.arbitrary_select("task", "tasks", f"id = {task_id}")[0][
-                    0
-                ]
-                self.tasks_facade.complete_task(task_id)
-                self.notes_facade.insert_note("Completed Task " + task_id + ": " + task)
+                if self.tasks_facade.check_if_not_completed(task_id):
+                    task = self.dml.arbitrary_select("task", "tasks", f"id = {task_id}")[0][0]
+                    self.tasks_facade.complete_task(task_id)
+                    self.notes_facade.insert_note("Completed Task " + task_id + ": " + task)
+                else:
+                    print(f"You have already completed this task with task id - {task_id}")
+                    print("please wait !!")
+                    time.sleep(3)
+                    self.__complete_task(False)
+
             interface_common.clear_screen()
         else:
             self.__complete_task(False)

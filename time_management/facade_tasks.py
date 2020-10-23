@@ -90,6 +90,19 @@ class TasksFacade(facade_abc.AbcFacade):
         )
         self.db.get_connection().commit()
 
+    def check_if_not_completed(self, task_id):
+        cursor = self.db.get_cursor()
+        cursor.execute(
+            f"SELECT is_complete from {self.table_name} WHERE id = {task_id}"
+        )
+        record = cursor.fetchall()
+        is_complete = record[0][0]
+
+        if is_complete == 'true':
+            return 0
+        else:
+            return 1
+
     @classmethod
     def reset_row_count(cls):
         TasksFacade.__rows_in_table = 0
